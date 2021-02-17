@@ -10,7 +10,7 @@ describe 'Merchant API Endpoints' do
 
     json = JSON.parse(response.body, symbolize_names: true)
 
-    json[:data].each do |merchant|
+    json[:data].map do |merchant|
       expect(merchant[:attributes]).to have_key(:id)
       expect(merchant[:attributes][:id]).to be_an Integer
 
