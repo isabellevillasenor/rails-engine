@@ -24,7 +24,7 @@ describe 'Search API' do
 
   it 'returns an item based on search criteria' do
     merchant = create :merchant
-    item1 = create(:item, name: 'Mushroom')
+    item1 = create(:item, name: 'Mushroom', merchant: merchant)
     item2 = create(:item, name: 'Keyboard')
 
     get "/api/v1/items/find?name=mushRoom"
@@ -33,6 +33,10 @@ describe 'Search API' do
 
     json = JSON.parse(response.body, symbolize_names: true)
 
+    # item_name = json[:data][:attributes].map do |item|
+    #   [:name]
+    # end
 
+    # expect(item_name).to eq(item1.name)
   end
 end
