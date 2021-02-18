@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :merchants, except: [:new, :edit]
       
       namespace :merchants do
+        get '/:id/items', to: 'items#index'
         get '/find_all', to: 'search#index'
       end
       
