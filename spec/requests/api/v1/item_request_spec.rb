@@ -22,6 +22,9 @@ describe 'Item API Endpoints' do
 
       expect(item[:attributes]).to have_key(:description)
       expect(item[:attributes][:description]).to be_a String
+
+      expect(item[:attributes]).to have_key(:unit_price)
+      expect(item[:attributes][:unit_price]).to be_a Float
     end
 
     expect(json[:data].count).to eq(7)
@@ -48,6 +51,24 @@ describe 'Item API Endpoints' do
     expect(json[:data][:attributes]).to have_key(:description)
     expect(json[:data][:attributes][:description]).to be_a String
 
+    expect(json[:data][:attributes]).to have_key(:unit_price)
+    expect(json[:data][:attributes][:unit_price]).to be_a Float
+
     expect(json[:data][:attributes]).not_to include(item2)
+  end
+
+  it 'can create an item' do
+    merchant = create(:merchant)
+    body = { name: 'Corn Dog', description: 'Fried Yum Yum on a Stick', unit_price: 1.23, merchant_id: merchant.id }
+    headers = { 'Content-Type' => 'application/json' }
+
+    post '/api/v1/items', headers: headers, params: JSON.generate(body)
+
+    expect(response).to be_successful
+
+    expect(Item.last.name).to eq(body[:name])
+    expect(Item.last.description).to eq(body[:description])
+    expect(Item.last.unit_price).to eq(body[:unit_price])
+    expect(Item.last.merchant_id).to eq(body[:merchant_id])
   end
 end
