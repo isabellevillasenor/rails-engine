@@ -52,4 +52,16 @@ describe 'Merchant API Endpoints' do
 
     expect(Merchant.last.name).to eq(body[:name])
   end
+
+  it 'can update a merchant' do
+    merchant = create(:merchant)
+    old_name = merchant.name
+    new_name = { name: 'Super Silly Sauron' }
+
+    patch "/api/v1/merchants/#{merchant.id}", params: new_name
+
+    expect(response).to be_successful
+    expect(Merchant.last.name).to eq(new_name[:name])
+    expect(Merchant.last.name).to_not eq(old_name)
+  end
 end
