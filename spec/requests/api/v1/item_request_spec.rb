@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Item API Endpoints' do
-  it 'should return an index of all items' do
+  it 'can return an index of all items' do
     merchant1 = create(:merchant)
     merchant2 = create(:merchant)
     create_list(:item, 3, merchant: merchant1)
@@ -30,7 +30,7 @@ describe 'Item API Endpoints' do
     expect(json[:data].count).to eq(7)
   end
 
-  it 'should return data for one item' do
+  it 'can return data for one item' do
     merchant1 = create(:merchant)
     merchant2 = create(:merchant)
     item1 = create(:item, merchant: merchant1)
@@ -91,5 +91,22 @@ describe 'Item API Endpoints' do
     expect(response).to be_successful
     expect(Item.all.count).to eq(0)
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  it 'can return a merchant that is associated with an item' do
+    merchant = create(:merchant)
+    item = create(:item, merchant: merchant)
+    
+    merchant2 = create(:merchant)
+    item2 = create(:item, merchant: merchant2)
+
+    get "/api/v1/items/#{item.id}/merchant"
+
+    expect(response).to be_successful
+
+    json = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(json[:data][:id].to_i).to eq(merchant.id)
+    expect(json[:data][:id].to_i).to_not eq(merchant2.id)
   end
 end
