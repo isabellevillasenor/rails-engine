@@ -82,4 +82,14 @@ describe 'Item API Endpoints' do
     expect(Item.last.name).to eq('Frostmourne')
     expect(Item.last.name).to_not eq(old_name)
   end
+
+  it 'can delete an item' do
+    item = create(:item)
+
+    delete "/api/v1/items/#{item.id}"
+
+    expect(response).to be_successful
+    expect(Item.all.count).to eq(0)
+    expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end
