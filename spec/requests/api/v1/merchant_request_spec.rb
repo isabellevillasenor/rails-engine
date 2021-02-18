@@ -18,4 +18,28 @@ describe 'Merchant API Endpoints' do
       expect(merchant[:attributes][:name]).to be_a String
     end
   end
+
+  it 'should return data for one merchant' do
+    merchant1 = create(:merchant)
+    merchant2 = create(:merchant)
+    create_list(:item, 2, merchant: merchant1)
+    create(:item, merchant: merchant2)
+
+    get "/api/v1/merchants/#{merchant1.id}"
+
+    expect(response).to be_successful
+
+    json = JSON.parse(response.body, symbolize_names: true)
+
+    expect(json[:data][:attributes][:id]).to eq(merchant1.id)
+
+    expect(json[:data][:attributes]).to have_key(:id)
+    expect(json[:data][:attributes][:id]).to be_an Integer
+
+    expect(json[:data][:attributes]).to have_key(:name)
+    expect(json[:data][:attributes][:name]).to be_a String
+
+    expect(json[:data][:attributes].count).to eq(2)
+
+  end
 end
