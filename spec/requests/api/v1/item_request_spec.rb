@@ -47,5 +47,7 @@ describe 'Item API Endpoints' do
 
     expect(json[:data][:attributes]).to have_key(:description)
     expect(json[:data][:attributes][:description]).to be_a String
+
+    expect(json[:data][:attributes]).not_to include(item2)
   end
 end
