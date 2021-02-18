@@ -7,7 +7,7 @@ Rails.application.routes.draw do
         get '/find_all', to: 'search#index'
       end
       
-      resources :items, only: [:index, :show, :create, :update]
+      resources :items, only: [:index, :show, :create, :update, :destroy]
       
       namespace :items do
         get 'find', to: 'search#show'
