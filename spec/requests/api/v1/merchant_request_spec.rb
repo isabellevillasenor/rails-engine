@@ -41,4 +41,15 @@ describe 'Merchant API Endpoints' do
 
     expect(json[:data][:attributes].count).to eq(2)
   end
+
+  it 'can create a merchant' do
+    body = { name: 'Silly Sauron' }
+    headers = { 'Content-Type' => 'application/json' }
+
+    post '/api/v1/merchants', headers: headers, params: JSON.generate(body)
+
+    expect(response).to be_successful
+
+    expect(Merchant.last.name).to eq(body[:name])
+  end
 end
