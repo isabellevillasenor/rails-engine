@@ -71,4 +71,15 @@ describe 'Item API Endpoints' do
     expect(Item.last.unit_price).to eq(body[:unit_price])
     expect(Item.last.merchant_id).to eq(body[:merchant_id])
   end
+
+  it 'can update an item' do
+    item = create(:item)
+    old_name = item.name
+
+    patch "/api/v1/items/#{item.id}?name=Frostmourne"
+
+    expect(response).to be_successful
+    expect(Item.last.name).to eq('Frostmourne')
+    expect(Item.last.name).to_not eq(old_name)
+  end
 end
