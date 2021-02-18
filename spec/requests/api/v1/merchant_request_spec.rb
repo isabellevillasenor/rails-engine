@@ -40,6 +40,5 @@ describe 'Merchant API Endpoints' do
     expect(json[:data][:attributes][:name]).to be_a String
 
     expect(json[:data][:attributes].count).to eq(2)
-
   end
 end
