@@ -4,4 +4,9 @@ class Api::V1::Merchants::SearchController < ApplicationController
     render json: MerchantSerializer.new(merchants)
   end
 
+  def show
+    merchant = Merchant.order(name: :asc).search_one_by_name(params[:name])
+    render json: MerchantSerializer.new(merchant)
+  end
+
 end
