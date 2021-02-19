@@ -24,17 +24,18 @@ describe 'Items Search API' do
     expect(items).not_to include(item4.name)
   end
 
-  # it 'returns an item based on search criteria' do
-  #   merchant = create :merchant
-  #   item1 = create(:item, name: 'Mushroom', merchant: merchant)
-  #   item2 = create(:item, name: 'Broom', merchant: merchant)
+  it 'returns an item based on search criteria' do
+    merchant = create :merchant
+    item1 = create(:item, name: 'Warcraft III', merchant: merchant)
+    item2 = create(:item, name: 'Starcraft', merchant: merchant)
+    item3 = create(:item, name: 'Minecraft', merchant: merchant)
 
-  #   get "/api/v1/items/find?name=RoOm"
+    get "/api/v1/items/find_one?name=CrAfT"
 
-  #   expect(response).to be_successful
+    expect(response).to be_successful
 
-  #   json = JSON.parse(response.body, symbolize_names: true)
+    json = JSON.parse(response.body, symbolize_names: true)
 
-     
-  # end
+    expect(json[:data][:attributes][:name]).to eq(item3.name)
+  end
 end
