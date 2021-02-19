@@ -23,4 +23,11 @@ class Merchant < ApplicationRecord
     .order('total DESC')
     .limit(quantity.to_i)
   end
+
+  def self.revenue(start_date, end_date)
+    joins(invoices: [:item_invoices, :transactions])
+    .where("invoices.status='shipped' AND transactions.result='success'")
+    .where('date(invoices.created_at) BETWEEN ? AND ?', start_date, end_date)
+    .select('SUM(invoice_items.quantity * invoice_items.unit_price)')
+  end
 end
