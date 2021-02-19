@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         get '/:id/items', to: 'items#index'
         get '/find_all', to: 'search#index'
         get '/find_one', to: 'search#show'
+        get '/most_revenue', to: 'logic#most_revenue'
       end
       
       resources :merchants, except: [:new, :edit]
